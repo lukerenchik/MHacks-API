@@ -30,9 +30,7 @@ except wikipedia.exceptions.DisambiguationError as d:
 #     wp_page, page_py = search()
 
 
-print(page_py.text)
 list_img_urls = wp_page.images
 for filename in wp_page.images[:]:  # Creating a copy of the list to avoid modification during iteration
     if filename.endswith(".svg") or filename.endswith(".gif"):
         wp_page.images.remove(filename)
-print(list_img_urls)

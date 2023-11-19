@@ -8,6 +8,7 @@ import pdfParse
 import wikiPageGetter
 import vision
 
+
 class Graphics(GraphicsEngine):
 
     def __init__(self, nRows, nColumns, Display):
@@ -16,7 +17,6 @@ class Graphics(GraphicsEngine):
         self.m_Display = Display
         # this is the container for a desired state of the braille display
         self.desiredState = [[0 for iDot in range(0, nColumns)] for iRow in range(0, nRows)]
-
 
     def draw(self):
         # draw the objects to the display
@@ -91,6 +91,8 @@ if __name__ == "__main__":
             text = text[break_index:].strip()
 
         return chunks
+
+
     def openDOT():
         Engine.clearDisplay()
         textToOutput = "Welcome to dotUI, press enter for menu options."
@@ -98,13 +100,14 @@ if __name__ == "__main__":
         Engine.refreshDisplay()
         input(textToOutput)
 
+
     def pageTurner(chunksToRead):
         index = 0
         while True:
             # Print the current item
             print(chunksToRead[index])
             Engine.clearDisplay()
-            Engine.addBraille((0,0), chunksToRead[index])
+            Engine.addBraille((0, 0), chunksToRead[index])
             Engine.refreshDisplay()
             # Wait for a key press
             key = keyboard.read_key()
@@ -121,10 +124,11 @@ if __name__ == "__main__":
         print(chunksToRead)
         pass
 
+
     def chatWithGPT():
         index = 0
         Engine.clearDisplay()
-        Engine.addBraille((0,0),"Input: ")
+        Engine.addBraille((0, 0), "Input: ")
         Engine.refreshDisplay()
         response = ChatGPT.talkWithGPT()
         chunksToRead = break_text(response)
@@ -132,7 +136,7 @@ if __name__ == "__main__":
             # Print the current item
             print(chunksToRead[index])
             Engine.clearDisplay()
-            Engine.addBraille((0,0), chunksToRead[index])
+            Engine.addBraille((0, 0), chunksToRead[index])
             Engine.refreshDisplay()
             # Wait for a key press
             key = keyboard.read_key()
@@ -148,6 +152,7 @@ if __name__ == "__main__":
                 break
         print(chunksToRead)
         pass
+
 
     def ParsePDF(filename):
         imageList = pdfParse.parseImages(filename)
@@ -159,54 +164,82 @@ if __name__ == "__main__":
         pageTurner(chunkedText)
         pass
 
+
     def wikipediaSearch():
         Engine.clearDisplay()
-        Engine.addBraille((0,0), "Enter the Search Term: ")
+        Engine.addBraille((0, 0), "Enter the Search Term: ")
         imageList, pageText = wikiPageGetter.search()
         pageText = pageText.text
         print(pageText)
         chunked_page = break_text(pageText)
         pageTurner(chunked_page)
         for i in range(4):
-            describedImage= vision.describe_image(imageList.images[i])
+            describedImage = vision.describe_image(imageList.images[i])
             describedImage = break_text(describedImage)
             pageTurner(describedImage)
         pass
 
+
     def speechToText():
         pass
+
 
     def textToSpeech():
         pass
 
+
     def closeDOT():
         pass
 
-    #applicationState = 0
 
-    #applicationTasks = [
+    # applicationState = 0
+
+    # applicationTasks = [
     #    wikipediaSearch,
     #    chatWithGPT,
     #    ParsePDF,
     #    closeDOT
-    #]
+    # ]
+    def menu():
+        # Automatically initialize openDOT when the state machine starts
+        openDOT()
+
+        while True:
+            Engine.clearDisplay()
+            Engine.addBraille((0,0),"1. Wiki    2. PDF    3. ChatGPT    4. Exit   Enter your choice:")
+            Engine.refreshDisplay()
+            print("1. Wiki Search")
+            print("2. PDF Parser")
+            print("3. ChatGPT")
+            print("4. Exit")
+            choice = input("Enter your choice: ")
+
+            if choice == "1":
+                wikipediaSearch()
+            elif choice == "2":
+                ParsePDF(parseFile)
+            elif choice == "3":
+                chatWithGPT()
+            elif choice == "4":
+                break
+            else:
+                print("Invalid choice. Please try again.")
 
 
-    openDOT()
-    wikipediaSearch()
-    ParsePDF(parseFile)
-    chatWithGPT()
-    #while 1:
+    if __name__ == "__main__":
+        menu()
+
+
+
+    # while 1:
     #    applicationTasks[appplicationState]()
     #    print(applicationTasks[appplicationState])
     #   appplicationState = int(input("next state: "))
 
-
-
     def closeScreen():
         Engine.clearDisplay()
         textToOutput = "This is the close screen"
-        Engine.addBraille((0,0), textToOutput)
+        Engine.addBraille((0, 0), textToOutput)
         Engine.refreshDisplay()
 
 

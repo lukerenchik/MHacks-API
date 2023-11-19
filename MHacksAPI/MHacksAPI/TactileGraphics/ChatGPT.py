@@ -16,7 +16,7 @@ def talkWithGPT():
         ]
     )
     content = response.choices[0].message.content
-    return
+    return content
 
 def GPTRewrite(text):
     response = client.chat.completions.create(

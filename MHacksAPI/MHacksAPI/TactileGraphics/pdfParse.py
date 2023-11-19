@@ -52,9 +52,3 @@ def parseImages(fname):
             image_description = visionFromFile.describe_image(f"image{page_index + 1}_{image_index}.jpg")
             imageDescriptions.append(image_description)
     return imageDescriptions
-
-
-
-
-#parseText("docs/michigan_maryland.pdf")
-#parseImages("docs/michigan_maryland.pdf")

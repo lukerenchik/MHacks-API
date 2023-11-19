@@ -61,10 +61,9 @@ def describe_image(image_path):
   "max_tokens": 300
     }
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-    #print(response.json())
     completion_content = response.json()['choices'][0]['message']['content']
 
     return completion_content
 
-output = describe_image(base64_image)
-print(output)
+#output = describe_image(base64_image)
+#print(output)
