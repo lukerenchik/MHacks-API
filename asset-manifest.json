@@ -1,14 +1,13 @@
 {
   "files": {
     "main.css": "/MHacks-API/static/css/main.295cf951.css",
-    "main.js": "/MHacks-API/static/js/main.9dd92906.js",
-    "static/media/bunny.mp4": "/MHacks-API/static/media/bunny.2c92d01256c8f29e1b68.mp4",
+    "main.js": "/MHacks-API/static/js/main.b169141f.js",
     "index.html": "/MHacks-API/index.html",
     "main.295cf951.css.map": "/MHacks-API/static/css/main.295cf951.css.map",
-    "main.9dd92906.js.map": "/MHacks-API/static/js/main.9dd92906.js.map"
+    "main.b169141f.js.map": "/MHacks-API/static/js/main.b169141f.js.map"
   },
   "entrypoints": [
     "static/css/main.295cf951.css",
-    "static/js/main.9dd92906.js"
+    "static/js/main.b169141f.js"
   ]
 }
