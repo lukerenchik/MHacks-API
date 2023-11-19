@@ -1,6 +1,9 @@
 from openai import OpenAI
 import os
+from dotenv import load_dotenv
 
+load_dotenv(dotenv_path="variables.env")
+apiKey = os.getenv('OPENAI_API_KEY')
 def describe_image(image_url):
     """
     This function takes an image URL and returns a description of the image using OpenAI's API.
@@ -11,8 +14,8 @@ def describe_image(image_url):
     Returns:
     str: A description of the image.
     """
-    openAIkey = "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"
-    client = OpenAI(api_key=openAIkey)
+    apiKey = os.getenv('OPENAI_API_KEY')
+    client = OpenAI(api_key=apiKey)
 
     response = client.chat.completions.create(
       model="gpt-4-vision-preview",
