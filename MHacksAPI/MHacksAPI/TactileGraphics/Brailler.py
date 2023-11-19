@@ -107,7 +107,7 @@ class Brailler():
                                             "]"	:	0b110111,
                                             "^"	:	0b000110,
                                             "_"	:	0b000111,
-                                            "|" :   0b010010 }
+                                            "©" :   0b010010 }
 
     
     def printCharacter(self, startCoordinate, character):

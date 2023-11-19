@@ -29,10 +29,11 @@ def parseImages(fname):
 
         # printing number of images found in this page
         if image_list:
-            print(
-                f"[+] Found a total of {len(image_list)} images in page {page_index}")
+            pass
+                #print(f"[+] Found a total of {len(image_list)} images in page {page_index}")
         else:
-            print("[!] No images found on page", page_index)
+            pass
+                #print("[!] No images found on page", page_index)
         for image_index, img in enumerate(page.get_images(), start=1):
             # get the XREF of the image
             xref = img[0]
@@ -48,7 +49,7 @@ def parseImages(fname):
             image = image.convert('RGB')
             # save it to local disk
             image.save(open(f"image{page_index + 1}_{image_index}.jpg", "wb"))
-            image_description = visionFromFile(f"image{page_index + 1}_{image_index}.jpg")
+            image_description = visionFromFile.describe_image(f"image{page_index + 1}_{image_index}.jpg")
             imageDescriptions.append(image_description)
     return imageDescriptions
 
@@ -56,4 +57,4 @@ def parseImages(fname):
 
 
 #parseText("docs/michigan_maryland.pdf")
-parseImages("docs/michigan_maryland.pdf")
+#parseImages("docs/michigan_maryland.pdf")

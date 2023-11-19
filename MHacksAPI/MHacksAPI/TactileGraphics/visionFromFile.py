@@ -35,6 +35,7 @@ def describe_image(image_path):
     Returns:
     str: A description of the image.
     """
+
     apiKey = os.getenv('OPENAI_API_KEY')
     client = OpenAI(api_key=apiKey)
     prompt = "Describe the core aspects of the image using a single sentence designed at giving a user who has never seen the image a clear idea of what is happening."
@@ -60,6 +61,7 @@ def describe_image(image_path):
   "max_tokens": 300
     }
     response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+    #print(response.json())
     completion_content = response.json()['choices'][0]['message']['content']
 
     return completion_content

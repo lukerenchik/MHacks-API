@@ -5,8 +5,8 @@ import TactileDisplay as td
 import ChatGPT
 import keyboard
 import pdfParse
-
-
+import wikiPageGetter
+import vision
 
 class Graphics(GraphicsEngine):
 
@@ -43,6 +43,8 @@ class Graphics(GraphicsEngine):
 
 
 if __name__ == "__main__":
+
+    parseFile = "docs/michigan_maryland.pdf"
 
     # create a connection to the tactile display
     Display = td.TactileDisplay("COM5", 115200, 3)
@@ -96,10 +98,28 @@ if __name__ == "__main__":
         Engine.refreshDisplay()
         input(textToOutput)
 
+    def pageTurner(chunksToRead):
+        index = 0
+        while True:
+            # Print the current item
+            print(chunksToRead[index])
+            Engine.clearDisplay()
+            Engine.addBraille((0,0), chunksToRead[index])
+            Engine.refreshDisplay()
+            # Wait for a key press
+            key = keyboard.read_key()
 
-    def wikipediaSearch():
+            if key == 'right':
+                # Increment index but don't go past the end of the list
+                index = min(index + 1, len(chunksToRead) - 1)
+            elif key == 'left':
+                # Decrement index but don't go below 0
+                index = max(index - 1, 0)
+            elif key == 'esc':
+                # Exit the loop if escape key is pressed
+                break
+        print(chunksToRead)
         pass
-
 
     def chatWithGPT():
         index = 0
@@ -130,7 +150,27 @@ if __name__ == "__main__":
         pass
 
     def ParsePDF(filename):
-        pdfParse.parse()
+        imageList = pdfParse.parseImages(filename)
+        for i in range(len(imageList)):
+            chunksToRead = break_text(imageList[i])
+            pageTurner(chunksToRead)
+        text = pdfParse.parseText(filename)
+        chunkedText = break_text(text)
+        pageTurner(chunkedText)
+        pass
+
+    def wikipediaSearch():
+        Engine.clearDisplay()
+        Engine.addBraille((0,0), "Enter the Search Term: ")
+        imageList, pageText = wikiPageGetter.search()
+        pageText = pageText.text
+        print(pageText)
+        chunked_page = break_text(pageText)
+        pageTurner(chunked_page)
+        for i in range(4):
+            describedImage= vision.describe_image(imageList.images[i])
+            describedImage = break_text(describedImage)
+            pageTurner(describedImage)
         pass
 
     def speechToText():
@@ -142,17 +182,18 @@ if __name__ == "__main__":
     def closeDOT():
         pass
 
-    applicationState = 0
+    #applicationState = 0
 
-    applicationTasks = [
-        wikipediaSearch,
-        chatWithGPT,
-        ParsePDF,
-        closeDOT
-    ]
+    #applicationTasks = [
+    #    wikipediaSearch,
+    #    chatWithGPT,
+    #    ParsePDF,
+    #    closeDOT
+    #]
 
-    parseFile = "docs/michigan_maryland.pdf"
+
     openDOT()
+    wikipediaSearch()
     ParsePDF(parseFile)
     chatWithGPT()
     #while 1:
@@ -161,18 +202,6 @@ if __name__ == "__main__":
     #   appplicationState = int(input("next state: "))
 
 
-
-    def ppScreen():
-        Engine.clearDisplay()
-        textToOutput = "This is | the pipe"
-        Engine.addBraille((0, 0), textToOutput)
-        layPipe = f.LayPipe((4, 10), (0, 5), 5, (40, 5), 3, textToOutput, (0, 0))
-        Engine.addFeature(layPipe)
-        # metadata - circle : ((4,10), 4, 3)
-        # line : (0,4)
-        print(Engine.featuresMetadata)
-        print(textToOutput)
-        Engine.refreshDisplay()
 
     def closeScreen():
         Engine.clearDisplay()
