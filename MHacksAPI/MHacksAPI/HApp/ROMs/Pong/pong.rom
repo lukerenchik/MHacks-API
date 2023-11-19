@@ -1,0 +1,105 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Feb 20 15:00:46 2023
+
+@author: Derek Joslin
+
+"""
+
+"""
+@RomInputsBegin
+#a dictionary to store the rom interrupts WARNING: will not compile as is a dictionary needs to be allocated to memory first
+interruptDictionaryAddress = id({'romEscape': 0, 'romContinue': 0, 'romEnd': 0, 'romHaltSerial': 0, 'isSerialHalted': 0})
+#api for using the braille tablet
+OperationsControlAddress = id(HAppOperationControl)
+#controls which number is displayed in demo
+demoNumber = 100
+#classic debug toggle 1-on 0-off
+echo = 0
+@RomInputsEnd
+"""
+
+import RomAPI as rs
+import time
+import PongOperations as ao
+import PongStates as avs
+import PongKeyboard as ak
+import PongMouse as amo
+
+
+class PongController(rs.RomController):
+    
+    def __init__(self, interruptDictionaryAddress, OperationsAddress, romSettings, debug):
+
+        super().__init__(interruptDictionaryAddress, OperationsAddress, romSettings, debug)
+
+        # add the Tactile Display
+        self.TactileDisplay = self.HAppControlCenter.getPeripheral("NewHaptics Display SarissaV1")
+
+        # Create the Game Flag
+        self.GameFlag = ao.GameStateFlag("Game State Flag", 4)
+        self.HAppControlCenter.addFlag(self.GameFlag)
+
+        # Create the ability to render game graphics
+        self.PongGraphicsRender = ao.PongGraphicsRender("PongGraphicsRender", self.TactileDisplay, self.GameFlag)
+        self.HAppControlCenter.addOperation(self.PongGraphicsRender)
+        
+        # create the handles for the keyboard including the interrupt dictionary
+        self.PongKeyboardHandles = ak.PongKeyboardHandles(self.GameFlag)
+        
+        # add in the keyboard handles by grabbing from the HApp control center
+        KeyboardPeripheral = self.HAppControlCenter.getPeripheral("Master Keyboard")
+        KeyboardPeripheral.setNewKeyboardHandler(self.PongKeyboardHandles)
+
+        #initialize all state objects and pass in the controller
+        self.PongStartMenu = avs.PongStartMenu(self)
+        
+        self.PongGame = avs.PongGame(self)
+        
+        self.EndRom = avs.PongExitState(self)
+        
+        #current state of rom (user can intialize a default state)
+        self.stateKey = 'Start Menu'
+
+        #available states for the rom
+        self.romStateDictionary = {'Start Menu' : self.PongStartMenu,
+                                   'Game' : self.PongGame,
+                                   'Exit Rom' : self.EndRom}
+
+        self.demoNumber = romSettings['demoNumber']
+
+    def exitRom(self):
+        #self.engine.disconnect()
+        print("disconnected")
+
+
+#settings specific to the rom
+romSettings = { 'demoNumber': int(demoNumber) }
+
+ThisRom = PongController(interruptDictionaryAddress, OperationsControlAddress, romSettings, int(echo))
+
+shouldRomEnd = ThisRom.getInterruptFlag('romEnd')
+
+# begin start menu
+ThisRom.startCurrentState()
+
+#Main loop of the Rom
+while shouldRomEnd == 0:
+    
+    #always step one tick into the current state
+    ThisRom.stepCurrentState()
+    
+    #decide if peripheral communication is going to occur
+    #Put NHAPI functions in here
+    ThisRom.runEngineBuffer()
+    
+    #decide the next state to move into
+    ThisRom.decideNextState()
+    
+    time.sleep(0.001)
+    stopEvent.wait()
+    
+    shouldRomEnd = ThisRom.getInterruptFlag('romEnd')
+    
+else:
+    ThisRom.exitRom()

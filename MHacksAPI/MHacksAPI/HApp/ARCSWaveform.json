@@ -1,0 +1,20 @@
+{ signal: [
+  { name: 'launchOperations', wave: 'x0808080808080808080808',  node: '...s', data: ["launch","launch","launch","launch","launch","launch","launch","launch","launch","launch","launch"] },
+  { name: 'Operation1', wave: 'x0..3450..3450..3450xxx',  node: '....i.....j.....p', data: ["start","exe","stop","start","exe","stop","start","exe","stop"] },
+  { name: 'Operation2', wave: 'x0..3404040450..3450xxx',  node: '....k.......m...q', data: ["start","exe","exe","exe","exe","stop","start","exe","stop"] },
+  { name: 'Operation3', wave: 'x0..3404045034040450xxx',  node: '....l.....n.o', data: ["start","exe","exe","exe","stop","start", "exe", "exe", "exe", "stop"] },
+  {},
+  { name: 'Flag1', wave: 'x01..0..1.0..1.........',  node: '..a.....b....r', data: ["start","exe","exe","exe","stop","start", "exe", "exe", "exe", "stop"] },
+  { name: 'Flag2', wave: 'x010.......1...........',  node: '..d........c', data: ["start","exe","exe","exe","stop","start", "exe", "exe", "exe", "stop"] },
+  {},
+  { name: 'executeDelay', wave: 'x0.10..........10.....x',  node: '', data: ["start","exe","exe","exe","stop","start", "exe", "exe", "exe", "stop"] },
+  { name: 'executeTimeLimit', wave: 'x0.1......0.1......0..x',  node: '...x......y.z', data: ["start","exe","exe","exe","stop","start", "exe", "exe", "exe", "stop"] },
+  { name: 'stopExecuteDelay', wave: 'x0.........10.........x',  node: '', data: ["start","exe","exe","exe","stop","start", "exe", "exe", "exe", "stop"] },
+  { name: 'executeTimeInterval', wave: 'x0....101010..1010....x',  node: '', data: ["start","exe","exe","exe","stop","start", "exe", "exe", "exe", "stop"] },
+  ],
+  
+  edge: [
+    'a~->i','a~->k', 'd~->l', 'b~->j', 'c->m',
+    'y-n', 'c->o', 'x-s', 'r~->p','r~->q'
+  ]
+}

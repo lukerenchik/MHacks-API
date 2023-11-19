@@ -1,0 +1,13 @@
+
+Law of Exp.:
+a^m*a^n=a^(m+n)
+
+Law of Mult. over Add.:
+a*(b+c)=a*b+a*c
+
+Law of Div. over Sub.:
+a/(b-c)=a/b-a/c
+
+Law of Inv. Ops.:
+a+(-a)=0
+a*(1/a)=1

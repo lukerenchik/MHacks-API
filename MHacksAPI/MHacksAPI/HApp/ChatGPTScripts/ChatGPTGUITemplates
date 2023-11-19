@@ -1,0 +1,73 @@
+Human Notes:
+Template for rapidly generating GUI interfaces using chatGPT
+
+""" AppVisualization Template """
+
+from PyQt5 import QtWidgets as qw
+from PyQt5 import QtCore as qc
+
+class AppVisualization(qw.QMainWindow):
+
+    def __init__(self):
+        # create the GUI objects
+        self.createActions()
+        self.createButtons()
+        self.createMenuBar()
+        self.show()
+
+    def createActions(self):
+        # create qw.QAction objects here and use QAction.triggered.connect to connect custom functions
+
+    def createButtons(self):
+        # create qw.QPushButton objects here and use QPushButton.clicked.connect to connect custom functions
+
+    def createWidgets(self):
+        # create qw.QPushButton objects here and use QWidget.triggered.connect to connect custom functions
+
+    def createToolBars(self):
+        # create qw.QToolBar objects here and use QToolBar.addWidget to add QPushButton widgets
+
+    def createMenuBar(self):
+        # create qw.QMenu and use QMenu.addAction to add actions
+
+Using the Template provided write python code using PyQt5 to create a GUI window with the following:
+
+create the following actions:
+1. load action
+2. save action
+
+add these actions to a QMenu.
+
+
+
+
+""" AppVisualization Template """
+
+from PyQt5 import QtWidgets as qw
+from PyQt5 import QtCore as qc
+
+class AppVisualization(qw.QMainWindow):
+
+    def __init__(self):
+        # create the GUI objects
+        self.createActions()
+        self.createMenuBar()
+        self.show()
+
+    def createActions(self):
+        # create qw.QAction objects here and use QAction.triggered.connect to connect custom functions
+
+    def createMenuBar(self):
+        # create qw.QMenu and use QMenu.addAction to add actions
+
+Using the Template provided write python code using PyQt5 do the following:
+
+
+Create the following QMenus.
+1.file menu
+
+
+
+create the following actions and add them to the associated menu ex. QAction - QMenu:
+file menu - load action
+file menu - save action
