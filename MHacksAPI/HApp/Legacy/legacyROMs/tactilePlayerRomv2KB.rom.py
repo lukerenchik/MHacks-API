@@ -1,0 +1,159 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Oct  7 11:20:16 2022
+
+@author: Derek Joslin
+"""
+
+import time
+import NHAPI as nh
+import keyboard
+
+def keyboardControl():
+    global cursorPosition
+    
+    if keyboard.is_pressed("up"):
+        if cursorPosition[1] > 0:
+            cursorPosition[1] -= 7
+            time.sleep(0.3)
+
+        else:
+            pass
+        
+    if keyboard.is_pressed("down"):
+        if cursorPosition[1] < 19:
+            cursorPosition[1] += 7
+            time.sleep(0.3)
+
+        else:
+            pass
+        
+    if keyboard.is_pressed("left"):
+        if cursorPosition[0] > 0:
+            cursorPosition[0] -= 2
+        else:
+            pass
+        
+    if keyboard.is_pressed("right"):
+        if cursorPosition[0] < 41:
+            cursorPosition[0] += 2
+        else:
+            pass
+
+
+def touchToBegin():
+    global engine
+    global startPosition
+    global cursorPosition
+    cursorPosition = engine.getCursorPosition()
+    startPosition[0] = cursorPosition[0]
+    startPosition[1] = cursorPosition[1]
+    print("move arrow keys to start")
+    engine.braille((16,0),"move arrow keys to start")
+    engine.desired()
+    engine.refresh()
+    engine.state()
+    while startPosition == cursorPosition:
+        keyboardControl()
+        
+    engine.clear()
+
+def startScreen():
+    global engine
+    engine.braille((0,0),"move your finger on the touch screen to change bar size")
+    engine.desired()
+    engine.refresh()
+    engine.state()
+    
+def createBars():
+    global engine
+    global bar1
+    global bar2
+    global bar3
+    engine.stroke(3)
+    
+    if cursorPosition[1] < 7:
+        bar1 = cursorPosition[0]
+    elif cursorPosition [1] < 14:
+        bar2 = cursorPosition[0]
+    else:
+        bar3 = cursorPosition[0]
+    engine.clear()    
+    engine.line((1,0), (1,bar1))
+    engine.line((9,0), (9,bar2))
+    engine.line((17,0), (17,bar3))
+
+engine = nh.NHAPI()
+engine.connect("COM3",0)
+
+displaySize = engine.return_displaySize()
+
+
+nRows = displaySize[0]
+nColumns = displaySize[1]
+
+
+bar1 = 0
+bar2 = 0
+bar3 = 0
+
+xIncrement = 1
+yIncrement = 1
+score = 0
+
+#game settings
+echo = 1
+
+tic = 0
+startPosition = [0,0]
+
+
+startScreen()
+
+touchToBegin()
+
+
+
+while not keyboard.is_pressed('o'):
+        
+        keyboardControl()
+        
+        if startPosition != cursorPosition:
+            createBars()
+            
+            engine.desired()
+            engine.refresh()
+            
+            engine.state()
+            
+            if keyboard.is_pressed('a'):  # if key 'q' is pressed 
+                engine.clear()
+            
+            toc = time.perf_counter()
+            if echo:
+                print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+                print("{0},{1}".format(cursorPosition[0],cursorPosition[1]))
+                print(toc-tic)
+            tic = time.perf_counter()
+            
+            
+        startPosition[0] = cursorPosition[0]
+        startPosition[1] = cursorPosition[1]
+else:
+    print("Exited Program")
+    engine.braille((0,0),"exited program")
+    engine.desired()
+    engine.refresh()
+    engine.state()
+    
+
+engine.disconnect()
+
+
+
+
+
+
+
+
+

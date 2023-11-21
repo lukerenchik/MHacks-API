@@ -1,0 +1,1 @@
+avrdude -CC:\arduino-1.0.6\hardware\tools\avr\etc\avrdude.conf -v -patmega32u4 -cavr109 -PCOM7 -b57600 -D -Uflash:w:GenericHID.hex

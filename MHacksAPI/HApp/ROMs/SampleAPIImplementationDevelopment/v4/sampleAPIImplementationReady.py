@@ -1,0 +1,94 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Nov  2 10:29:05 2022
+
+@author: Derek Joslin
+"""
+
+"""
+@RomInputsBegin
+#a dictionary to store the rom interrupts WARNING: will not compile as is a dictionary needs to be allocated to memory first
+interruptDictionaryAddress = id({'romEscape': 0, 'romContinue': 0, 'romEnd': 0, 'romHaltSerial': 0, 'isSerialHalted': 0})
+#api for using the braille tablet
+OperationsControlAddress = id(HAppOperationControl)
+#controls which number is displayed in demo
+demoNumber = 100
+#classic debug toggle 1-on 0-off
+echo = 0
+@RomInputsEnd
+"""
+
+import RomAPI as rs
+import sampleAPIImplementationKeyboard as kb
+import sampleAPIImplementationOperations as so
+import sampleAPIImplementationStates as ss
+
+class SampleController(rs.RomController):
+    
+    def __init__(self, interruptDictionaryAddress, OperationsAddress, romSettings, debug):
+
+        super().__init__(interruptDictionaryAddress, OperationsAddress, romSettings, debug)
+        
+        #create rom keyboard handler
+        self.SampleHandles = kb.SampleKeyboardHandles(self)
+        
+        #creat a sample operation
+        self.SampleOperation = so.SampleOperation(self)
+        
+        
+        #initialize all state objects and pass in the controller
+        self.SampleStartMenu = ss.SampleStartMenu(self)
+        
+        self.SampleEndMenu = ss.SampleEndMenu(self)
+        
+        self.EndRom = ss.ExitState(self)
+        
+        #current state of rom (user can intialize a default state)
+        self.stateKey = 'Start Menu'
+
+        #available states for the rom
+        self.romStateDictionary = {'Start Menu' : self.SampleStartMenu,
+                                   'End Menu' : self.SampleEndMenu,
+                                   'Exit Rom' : self.EndRom}
+
+        self.demoNumber = romSettings['demoNumber']
+        
+        #set a new keyboard handler 
+        self.OperationsController.KeyboardHandler.setNewKeyboardHandler(self.SampleHandles)
+        self.OperationsController.setOperation("serial interrupt", self.SampleOperation)
+        
+    def exitRom(self):
+        self.OperationsController.BrailleDisplay.disconnect()
+        print("disconnected")
+        
+        
+#settings specific to the rom
+romSettings = { 'demoNumber': int(demoNumber) }
+
+ThisRom = SampleController(interruptDictionaryAddress, OperationsControlAddress, romSettings, int(echo))
+
+
+shouldRomEnd = ThisRom.getInterruptFlag('romEnd')
+
+
+#Main loop of the Rom
+while shouldRomEnd == 0:
+    
+    #always step one tick into the current state
+    ThisRom.stepCurrentState()
+    
+    #decide if peripheral communication is going to occur
+    #Put NHAPI functions in here
+    ThisRom.runEngineBuffer()
+    
+    #decide the next state to move into
+    ThisRom.decideNextState()
+    
+    
+    shouldRomEnd = ThisRom.getInterruptFlag('romEnd')
+    
+else:
+    ThisRom.exitRom()
+
+        
+        

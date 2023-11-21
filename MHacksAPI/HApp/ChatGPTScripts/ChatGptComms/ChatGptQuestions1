@@ -1,0 +1,799 @@
+How do I list the current path in python?
+
+How do I list all added paths in python?
+
+import sys
+import os
+
+class PathManager():
+
+    def __init__(self, versionNumber, codeName):
+
+        # Define the version and release of the HApplication
+        softwareVersionNumber = "v" + versionNumber
+        softwareReleaseVersion = softwareVersionNumber[:-2]
+
+        softwareCodeName = codeName
+        softwareIdentifier = softwareVersionNumber + "-" + softwareCodeName
+        softwareReleaseIdentifier = softwareReleaseVersion + "-" + softwareCodeName
+
+        # Create the names of the release and software folder
+        softwareReleaseFolder = "API" + softwareReleaseIdentifier + "//"
+        softwareFolder = softwareIdentifier + "//"
+
+        # root path
+        rootSoftwarePath = "C://Users//derek//OneDrive//NewHaptics Shared//HapticOS//FC_GUI_API//"
+
+        # path to software folder of the current version
+        pathToSoftwareFolder = rootSoftwarePath + softwareReleaseFolder + softwareFolder
+
+        print(pathToSoftwareFolder)
+
+        # Add the software folder to the Python path
+        sys.path.append(pathToSoftwareFolder)
+
+        # Add all subfolders of the current software folder to the Python path
+
+
+
+
+Add all subfolders in pathToSoftwareFolder to the system path in the Python code above.
+
+How do you add containing folder of a folderpath to python path using sys.path.append?
+
+How do I do something like this filename[:-4] but using a character, ex. filename[:"a"] in python?
+
+
+
+
+
+
+#cursor tools
+self.erase = qw.QAction("Input", self)
+self.erase.triggered.connect(lambda: self.__toolSelected("erase","({on/off-E})"))
+self.fill = qw.QAction(fillIcon, "Fill", self)
+self.fill.triggered.connect(lambda: self.__toolSelected("fill","({on/off-F})"))
+self.stroke = qw.QAction(strokeIcon, "Stroke", self)
+self.stroke.triggered.connect(lambda: self.__toolSelected("stroke","({stroke size})"))
+
+#shape tools
+self.dot = qw.QAction(dotIcon, "Dot", self)
+self.dot.setIconText("Dot")
+self.dot.triggered.connect(lambda: self.__toolSelected("dot","({coord1})"))
+self.cell = qw.QAction(cellIcon, "cell", self)
+self.cell.setIconText("Cell")
+self.cell.triggered.connect(lambda: self.__toolSelected("cell","({coord1})"))
+self.line = qw.QAction(lineIcon, "Line", self)
+self.line.triggered.connect(lambda: self.__toolSelected("line","({coord2},{coord1})"))
+self.curve = qw.QAction(curveIcon, "Curve", self)
+self.curve.triggered.connect(lambda: self.__toolSelected("curve","({coord4},{coord3},{coord2},{coord1})"))
+self.circle = qw.QAction(circleIcon, "Circle", self)
+self.circle.triggered.connect(lambda: self.__toolSelected("circle","({coord1},{radius})"))
+self.rect = qw.QAction(rectIcon, "Rect", self)
+self.rect.triggered.connect(lambda: self.__toolSelected("rect","({coord2},{coord1})"))
+self.triangle = qw.QAction(triangleIcon, "Triangle", self)
+self.triangle.triggered.connect(lambda: self.__toolSelected("triangle","({coord3},{coord2},{coord1})"))
+self.polygon = qw.QAction(polygonIcon, "Polygon", self)
+self.polygon.triggered.connect(lambda: self.__toolSelected("polygon","({list1})"))
+
+#character tools
+self.braille = qw.QAction(brailleIcon, "Braille", self)
+self.braille.triggered.connect(lambda: self.__toolSelected("braille","({coord1},{text})"))
+self.brailleBox = qw.QLineEdit(self)
+self.brailleBox.setMaximumWidth(100)
+
+#load tools
+self.load.triggered.connect(lambda: self.__toolSelected("setMat","({matrix})"))
+self.load.triggered.connect(lambda: self.__optionUpdated("matrix", loadFile()))
+
+#control actions
+self.clear = qw.QAction(eraseIcon, "Clear", self)
+self.clear.triggered.connect(lambda: self.__toolSelected("clear","()"))
+self.Fclear = qw.QAction(FclearIcon, "Force clear", self)
+self.Fclear.triggered.connect(lambda: self.__toolSelected("Fclear","()"))
+self.times = qw.QAction("Times", self)
+self.times.triggered.connect(lambda: self.__toolSelected("times","({now})"))
+self.timesStepper = qw.QSpinBox()
+self.timesStepper.setRange(0,100000)
+self.timesStepper.setSingleStep(100)
+self.timesStepper.valueChanged.connect(lambda: self.__toolSelected("times", "({now})"))
+self.timesStepper.valueChanged.connect(lambda: self.__optionUpdated("now", self.timesStepper.value()))
+self.setMat = qw.QAction("Set Matrix", self)
+self.setMat.triggered.connect(lambda: self.__toolSelected("setMat","({matrix})"))
+
+#board actions
+self.connect = qw.QAction("Connect", self)
+self.connect.triggered.connect(lambda: self.__toolSelected("connect","({com})"))
+self.connectTouch = qw.QAction("Connect Touch", self)
+self.connectTouch.triggered.connect(lambda: self.__toolSelected("connectTouch","({com})"))
+self.disconnect = qw.QAction("Disconnect", self)
+self.disconnect.triggered.connect(lambda: self.__toolSelected("disconnect","()"))
+self.disconnectTouch = qw.QAction("Disconnect Touch", self)
+self.disconnectTouch.triggered.connect(lambda: self.__toolSelected("disconnectTouch","()"))
+self.refresh = qw.QAction(refreshIcon, "Refresh", self)
+self.refresh.triggered.connect(lambda: self.__toolSelected("refresh","()"))
+self.direct = qw.QAction("Direct")
+self.direct.triggered.connect(lambda: self.__toolSelected("direct", "({on/off-D})"))
+self.directOn = qw.QAction("On", self)
+self.directOn.triggered.connect(lambda: self.__toolSelected("direct", '("on")'))
+self.directOff = qw.QAction("Off", self)
+self.directOff.triggered.connect(lambda: self.__toolSelected("direct", '("off")'))
+
+Explain the general principle that governs what is occuring in the QActions above:
+
+
+import NHAPI as nh
+
+class SlidesTools():
+
+    def __init__(self):
+        self.toolSelector = nh.NHAPI()
+
+        pass
+
+
+    #cursor tools
+    def selectErase(self):
+        self.toolSelector.erase("on/off-E")
+
+    #character tools
+    def selectCharacter(self, coord1):
+        self.toolSelector.dot(coord1)
+
+    #load tools
+    def selectDot(self, coord1):
+        self.toolSelector.dot(coord1)
+
+    #control tools
+    def selectClear(self):
+        self.toolSelector.clear()
+
+    #board tools
+    def selectConnect(self, com):
+        self.toolSelector.connect(com)
+
+Adding the tools as functions to the class above following the paradigm.
+
+
+Add These tools to the SlidesTools class:
+
+#cursor tools
+self.erase = qw.QAction("Input", self)
+self.erase.triggered.connect(lambda: self.__toolSelected("erase","({on/off-E})"))
+self.fill = qw.QAction(fillIcon, "Fill", self)
+self.fill.triggered.connect(lambda: self.__toolSelected("fill","({on/off-F})"))
+self.stroke = qw.QAction(strokeIcon, "Stroke", self)
+self.stroke.triggered.connect(lambda: self.__toolSelected("stroke","({stroke size})"))
+
+#shape tools
+self.dot = qw.QAction(dotIcon, "Dot", self)
+self.dot.setIconText("Dot")
+self.dot.triggered.connect(lambda: self.__toolSelected("dot","({coord1})"))
+self.cell = qw.QAction(cellIcon, "cell", self)
+self.cell.setIconText("Cell")
+self.cell.triggered.connect(lambda: self.__toolSelected("cell","({coord1})"))
+self.line = qw.QAction(lineIcon, "Line", self)
+self.line.triggered.connect(lambda: self.__toolSelected("line","({coord2},{coord1})"))
+self.curve = qw.QAction(curveIcon, "Curve", self)
+self.curve.triggered.connect(lambda: self.__toolSelected("curve","({coord4},{coord3},{coord2},{coord1})"))
+self.circle = qw.QAction(circleIcon, "Circle", self)
+self.circle.triggered.connect(lambda: self.__toolSelected("circle","({coord1},{radius})"))
+self.rect = qw.QAction(rectIcon, "Rect", self)
+self.rect.triggered.connect(lambda: self.__toolSelected("rect","({coord2},{coord1})"))
+self.triangle = qw.QAction(triangleIcon, "Triangle", self)
+self.triangle.triggered.connect(lambda: self.__toolSelected("triangle","({coord3},{coord2},{coord1})"))
+self.polygon = qw.QAction(polygonIcon, "Polygon", self)
+self.polygon.triggered.connect(lambda: self.__toolSelected("polygon","({list1})"))
+
+#character tools
+self.braille = qw.QAction(brailleIcon, "Braille", self)
+self.braille.triggered.connect(lambda: self.__toolSelected("braille","({coord1},{text})"))
+self.brailleBox = qw.QLineEdit(self)
+self.brailleBox.setMaximumWidth(100)
+
+#load tools
+self.load.triggered.connect(lambda: self.__toolSelected("setMat","({matrix})"))
+self.load.triggered.connect(lambda: self.__optionUpdated("matrix", loadFile()))
+
+#control actions
+self.clear = qw.QAction(eraseIcon, "Clear", self)
+self.clear.triggered.connect(lambda: self.__toolSelected("clear","()"))
+self.Fclear = qw.QAction(FclearIcon, "Force clear", self)
+self.Fclear.triggered.connect(lambda: self.__toolSelected("Fclear","()"))
+self.times = qw.QAction("Times", self)
+self.times.triggered.connect(lambda: self.__toolSelected("times","({now})"))
+self.timesStepper = qw.QSpinBox()
+self.timesStepper.setRange(0,100000)
+self.timesStepper.setSingleStep(100)
+self.timesStepper.valueChanged.connect(lambda: self.__toolSelected("times", "({now})"))
+self.timesStepper.valueChanged.connect(lambda: self.__optionUpdated("now", self.timesStepper.value()))
+self.setMat = qw.QAction("Set Matrix", self)
+self.setMat.triggered.connect(lambda: self.__toolSelected("setMat","({matrix})"))
+
+
+#board actions
+self.connect = qw.QAction("Connect", self)
+self.connect.triggered.connect(lambda: self.__toolSelected("connect","({com})"))
+self.connectTouch = qw.QAction("Connect Touch", self)
+self.connectTouch.triggered.connect(lambda: self.__toolSelected("connectTouch","({com})"))
+self.disconnect = qw.QAction("Disconnect", self)
+self.disconnect.triggered.connect(lambda: self.__toolSelected("disconnect","()"))
+self.disconnectTouch = qw.QAction("Disconnect Touch", self)
+self.disconnectTouch.triggered.connect(lambda: self.__toolSelected("disconnectTouch","()"))
+self.refresh = qw.QAction(refreshIcon, "Refresh", self)
+self.refresh.triggered.connect(lambda: self.__toolSelected("refresh","()"))
+self.direct = qw.QAction("Direct")
+self.direct.triggered.connect(lambda: self.__toolSelected("direct", "({on/off-D})"))
+self.directOn = qw.QAction("On", self)
+self.directOn.triggered.connect(lambda: self.__toolSelected("direct", '("on")'))
+self.directOff = qw.QAction("Off", self)
+self.directOff.triggered.connect(lambda: self.__toolSelected("direct", '("off")'))
+
+Add the board actions above to the SlidesTools class.
+
+#help actions
+self.settings = qw.QAction("Settings", self)
+self.settings.triggered.connect(lambda: self.__toolSelected("settings","()"))
+self.frames = qw.QAction("Frames", self)
+self.frames.triggered.connect(lambda: self.__toolSelected("frames","()"))
+
+#misc actions
+self.onOFF = qw.QPushButton("on/off")
+self.onOFF.setCheckable(True)
+self.onOFF.clicked.connect(lambda: self.__optionUpdated("on/off", self.onOFF.isChecked()))
+self.onOFF.setFocusPolicy(qc.Qt.NoFocus)
+self.strokeLabel = qw.QLabel("stroke size")
+self.strokeSize = qw.QSpinBox()
+self.strokeSize.setMinimum(1)
+self.strokeSize.valueChanged.connect(lambda: self.__toolSelected("stroke","({stroke size})"))
+self.strokeSize.valueChanged.connect(lambda: self.__optionUpdated("stroke size", self.strokeSize.value()))
+self.strokeSize.setFocusPolicy(qc.Qt.NoFocus)
+self.space = qw.QLabel(" " * 5)
+self.fontLabel = qw.QLabel("font size")
+self.fontSize = qw.QSpinBox()
+self.fontSize.setMinimum(8)
+self.fontSize.setFocusPolicy(qc.Qt.NoFocus)
+self.fontSize.valueChanged.connect(lambda: self.__optionUpdated("font size", self.fontSize.value()))
+self.space2 = qw.QLabel(" " * 5)
+self.directOnOFF = ts.ToggleSwitch("       Direct\n\n\n")
+self.directOnOFF.setCheckable(True)
+self.directOnOFF.clicked.connect(lambda: self.__toolSelected("direct", "({on/off-D})"))
+self.directOnOFF.clicked.connect(lambda: self.__optionUpdated("on/off-D", self.directOnOFF.isChecked()))
+self.directOnOFF.setFocusPolicy(qc.Qt.NoFocus)
+self.eraseOnOFF = ts.ToggleSwitch("        Input\n\n\n")
+self.eraseOnOFF.setCheckable(True)
+self.eraseOnOFF.clicked.connect(lambda: self.__toolSelected("erase", "({on/off-E})"))
+self.eraseOnOFF.clicked.connect(lambda: self.__optionUpdated("on/off-E", self.eraseOnOFF.isChecked()))
+self.eraseOnOFF.setFocusPolicy(qc.Qt.NoFocus)
+self.fillOnOFF = ts.ToggleSwitch("         Fill\n\n\n")
+self.fillOnOFF.setCheckable(True)
+self.fillOnOFF.clicked.connect(lambda: self.__toolSelected("fill", "({on/off-F})"))
+self.fillOnOFF.clicked.connect(lambda: self.__optionUpdated("on/off-F", self.fillOnOFF.isChecked()))
+self.fillOnOFF.setFocusPolicy(qc.Qt.NoFocus)
+self.space3 = qw.QLabel(" " * 5)
+
+Add these actions to SlidesTools as well just like done before with self.__optionUpdated being treated like self.__toolSelected:
+
+class SlidesTools():
+
+    def __init__(self):
+        self.toolSelector = nh.NHAPI()
+
+    #cursor tools
+    def erase(self):
+        self.toolSelector.erase("on/off-E")
+
+    def fill(self):
+        self.toolSelector.fill("on/off-F")
+
+    def stroke(self):
+        self.toolSelector.stroke("({stroke size})")
+
+    #shape tools
+    def dot(self, coord1):
+        self.toolSelector.dot(coord1)
+
+    def cell(self, coord1):
+        self.toolSelector.cell(coord1)
+
+    def line(self, coord2, coord1):
+        self.toolSelector.line(coord2, coord1)
+
+    def curve(self, coord4, coord3, coord2, coord1):
+        self.toolSelector.curve(coord4, coord3, coord2, coord1)
+
+    def circle(self, coord1, radius):
+        self.toolSelector.circle(coord1, radius)
+
+    def rect(self, coord2, coord1):
+        self.toolSelector.rect(coord2, coord1)
+
+    def triangle(self, coord3, coord2, coord1):
+        self.toolSelector.triangle(coord3, coord2, coord1)
+
+    def polygon(self, list1):
+        self.toolSelector.polygon(list1)
+
+    #character tools
+    def braille(self, coord1, text):
+        self.toolSelector.braille(coord1, text)
+
+    #load tools
+    def load(self, matrix):
+        self.toolSelector.setMat(matrix)
+
+    #control actions
+    def clear(self):
+        self.toolSelector.clear()
+
+    def Fclear(self):
+        self.toolSelector.Fclear()
+
+    def times(self, now):
+        self.toolSelector.times(now)
+
+    def setMat(self, matrix):
+        self.toolSelector.setMat(matrix)
+
+    #board actions
+    def connect(self, com):
+
+        self.toolSelector.connect(com)
+
+    def connectTouch(self, com):
+
+        self.toolSelector.connectTouch(com)
+
+    def disconnect(self):
+
+        self.toolSelector.disconnect()
+
+    def disconnectTouch(self):
+
+        self.toolSelector.disconnectTouch()
+
+    def refresh(self):
+
+        self.toolSelector.refresh()
+
+    def direct(self, on_off):
+
+        self.toolSelector.direct(on_off)
+
+    #cursor tools
+    def selectErase(self):
+
+        self.toolSelector.erase("on/off-E")
+
+    #character tools
+    def selectCharacter(self, coord1):
+
+        self.toolSelector.dot(coord1)
+
+    #load tools
+    def selectDot(self, coord1):
+
+        self.toolSelector.dot(coord1)
+
+    #control tools
+    def selectClear(self):
+
+        self.toolSelector.clear()
+
+    #board tools
+    def selectConnect(self, com):
+
+        self.toolSelector.connect(com)
+
+    #help tools
+    def selectSettings(self):
+
+        self.toolSelector.settings()
+
+    #misc tools
+    def selectOnOff(self, onOff):
+
+        self.toolSelector.onOff(onOff)
+
+    def selectStrokeSize(self, strokeSize):
+
+        self.toolSelector.strokeSize(strokeSize)
+
+    def selectFontSize(self, fontSize):
+
+        self.toolSelector.fontSize(fontSize)
+
+    def selectDirectOnOff(self, onOff):
+
+        self.toolSelector.directOnOff(onOff)
+
+    def selectEraseOnOff(self, onOff):
+
+        self.toolSelector.eraseOnOff(onOff)
+
+    def selectFillOnOff(self, onOff):
+
+        self.toolSelector.fillOnOff(onOff)
+
+
+For every function in the SlidesTools class generate?
+
+
+#Create actions creates a series of PyQt QActions with lambda functions connected
+def __createActions(self):
+
+#cursor tools
+self.erase = qw.QAction("Input", self)
+self.erase.triggered.connect(lambda: self.__toolSelected("erase","({on/off-E})"))
+self.fill = qw.QAction(fillIcon, "Fill", self)
+self.fill.triggered.connect(lambda: self.__toolSelected("fill","({on/off-F})"))
+self.stroke = qw.QAction(strokeIcon, "Stroke", self)
+self.stroke.triggered.connect(lambda: self.__toolSelected("stroke","({stroke size})"))
+#shape tools
+self.dot = qw.QAction(dotIcon, "Dot", self)
+self.dot.setIconText("Dot")
+self.dot.triggered.connect(lambda: self.__toolSelected("dot","({coord1})"))
+self.cell = qw.QAction(cellIcon, "cell", self)
+self.cell.setIconText("Cell")
+self.cell.triggered.connect(lambda: self.__toolSelected("cell","({coord1})"))
+self.line = qw.QAction(lineIcon, "Line", self)
+self.line.triggered.connect(lambda: self.__toolSelected("line","({coord2},{coord1})"))
+self.curve = qw.QAction(curveIcon, "Curve", self)
+self.curve.triggered.connect(lambda: self.__toolSelected("curve","({coord4},{coord3},{coord2},{coord1})"))
+self.circle = qw.QAction(circleIcon, "Circle", self)
+self.circle.triggered.connect(lambda: self.__toolSelected("circle","({coord1},{radius})"))
+self.rect = qw.QAction(rectIcon, "Rect", self)
+self.rect.triggered.connect(lambda: self.__toolSelected("rect","({coord2},{coord1})"))
+self.triangle = qw.QAction(triangleIcon, "Triangle", self)
+self.triangle.triggered.connect(lambda: self.__toolSelected("triangle","({coord3},{coord2},{coord1})"))
+self.polygon = qw.QAction(polygonIcon, "Polygon", self)
+self.polygon.triggered.connect(lambda: self.__toolSelected("polygon","({list1})"))
+#character tools
+self.braille = qw.QAction(brailleIcon, "Braille", self)
+self.braille.triggered.connect(lambda: self.__toolSelected("braille","({coord1},{text})"))
+self.load.triggered.connect(lambda: self.__toolSelected("setMat","({matrix})"))
+self.load.triggered.connect(lambda: self.__optionUpdated("matrix", loadFile()))
+#control actions
+self.clear = qw.QAction(eraseIcon, "Clear", self)
+self.clear.triggered.connect(lambda: self.__toolSelected("clear","()"))
+self.Fclear = qw.QAction(FclearIcon, "Force clear", self)
+self.Fclear.triggered.connect(lambda: self.__toolSelected("Fclear","()"))
+self.times = qw.QAction("Times", self)
+self.times.triggered.connect(lambda: self.__toolSelected("times","({now})"))
+self.timesStepper = qw.QSpinBox()
+self.timesStepper.setRange(0,100000)
+self.timesStepper.setSingleStep(100)
+self.timesStepper.valueChanged.connect(lambda: self.__toolSelected("times", "({now})"))
+self.timesStepper.valueChanged.connect(lambda: self.__optionUpdated("now", self.timesStepper.value()))
+self.setMat = qw.QAction("Set Matrix", self)
+self.setMat.triggered.connect(lambda: self.__toolSelected("setMat","({matrix})"))
+
+#board actions
+self.connect = qw.QAction("Connect", self)
+self.connect.triggered.connect(lambda: self.__toolSelected("connect","({com})"))
+self.connectTouch = qw.QAction("Connect Touch", self)
+self.connectTouch.triggered.connect(lambda: self.__toolSelected("connectTouch","({com})"))
+self.disconnect = qw.QAction("Disconnect", self)
+self.disconnect.triggered.connect(lambda: self.__toolSelected("disconnect","()"))
+self.disconnectTouch = qw.QAction("Disconnect Touch", self)
+self.disconnectTouch.triggered.connect(lambda: self.__toolSelected("disconnectTouch","()"))
+self.refresh = qw.QAction(refreshIcon, "Refresh", self)
+self.refresh.triggered.connect(lambda: self.__toolSelected("refresh","()"))
+self.direct = qw.QAction("Direct")
+self.direct.triggered.connect(lambda: self.__toolSelected("direct", "({on/off-D})"))
+self.directOn = qw.QAction("On", self)
+self.directOn.triggered.connect(lambda: self.__toolSelected("direct", '("on")'))
+self.directOff = qw.QAction("Off", self)
+self.directOff.triggered.connect(lambda: self.__toolSelected("direct", '("off")'))
+#help actions
+self.settings = qw.QAction("Settings", self)
+self.settings.triggered.connect(lambda: self.__toolSelected("settings","()"))
+self.frames = qw.QAction("Frames", self)
+self.frames.triggered.connect(lambda: self.__toolSelected("frames","()"))
+#misc actions
+self.onOFF = qw.QPushButton("on/off")
+self.onOFF.setCheckable(True)
+self.onOFF.clicked.connect(lambda: self.__optionUpdated("on/off", self.onOFF.isChecked()))
+self.onOFF.setFocusPolicy(qc.Qt.NoFocus)
+self.strokeLabel = qw.QLabel("stroke size")
+self.strokeSize = qw.QSpinBox()
+self.strokeSize.setMinimum(1)
+self.strokeSize.valueChanged.connect(lambda: self.__toolSelected("stroke","({stroke size})"))
+self.strokeSize.valueChanged.connect(lambda: self.__optionUpdated("stroke size", self.strokeSize.value()))
+self.strokeSize.setFocusPolicy(qc.Qt.NoFocus)
+self.space = qw.QLabel(" " * 5)
+self.fontLabel = qw.QLabel("font size")
+self.fontSize = qw.QSpinBox()
+self.fontSize.setMinimum(8)
+self.fontSize.setFocusPolicy(qc.Qt.NoFocus)
+self.fontSize.valueChanged.connect(lambda: self.__optionUpdated("font size", self.fontSize.value()))
+self.space2 = qw.QLabel(" " * 5)
+self.directOnOFF = ts.ToggleSwitch("       Direct\n\n\n")
+self.directOnOFF.setCheckable(True)
+self.directOnOFF.clicked.connect(lambda: self.__toolSelected("direct", "({on/off-D})"))
+self.directOnOFF.clicked.connect(lambda: self.__optionUpdated("on/off-D", self.directOnOFF.isChecked()))
+self.directOnOFF.setFocusPolicy(qc.Qt.NoFocus)
+self.eraseOnOFF = ts.ToggleSwitch("        Input\n\n\n")
+self.eraseOnOFF.setCheckable(True)
+self.eraseOnOFF.clicked.connect(lambda: self.__toolSelected("erase", "({on/off-E})"))
+self.eraseOnOFF.clicked.connect(lambda: self.__optionUpdated("on/off-E", self.eraseOnOFF.isChecked()))
+self.eraseOnOFF.setFocusPolicy(qc.Qt.NoFocus)
+self.fillOnOFF = ts.ToggleSwitch("         Fill\n\n\n")
+self.fillOnOFF.setCheckable(True)
+self.fillOnOFF.clicked.connect(lambda: self.__toolSelected("fill", "({on/off-F})"))
+self.fillOnOFF.clicked.connect(lambda: self.__optionUpdated("on/off-F", self.fillOnOFF.isChecked()))
+
+
+
+Create QActions for each function and connect a lambda function like so:
+self.erase = qw.QAction("Input", self)
+self.erase.triggered.connect(lambda: self.__toolSelected("erase","({on/off-E})"))
+
+
+class RomVisualizationHandler():
+
+    def __init__(self):
+
+        pass
+
+    def createActions(self):
+
+        pass
+
+    def createMenuBar(self):
+
+        pass
+
+    def createToolBars(self):
+
+        pass
+
+
+    def connectControls(self):
+
+        pass
+
+    def setStyles(self):
+
+        pass
+
+Add generic print statements to the functions in this code.
+
+
+
+
+
+""" AppVisualization Template """
+
+from PyQt5 import QtWidgets as qw
+from PyQt5 import QtCore as qc
+
+class AppVisualization(qw.QMainWindow):
+
+    def __init__(self):
+        # create the GUI objects
+        self.createActions()
+        self.createButtons()
+        self.createMenuBar()
+        self.show()
+
+    def createActions(self):
+        # create qw.QAction objects here and use QAction.triggered.connect to connect custom functions
+
+    def createButtons(self):
+        # create qw.QPushButton objects here and use QPushButton.triggered.connect to connect custom functions
+
+    def createToolBars(self):
+        # create qw.QToolBar objects here and use QToolBar.addWidget to add QPushButton widgets
+
+    def createMenuBar(self):
+        # create qw.QMenu and use QMenu.addAction to add actions
+
+Using the Template provided write python code using PyQt5 to create a GUI window with the following:
+
+create the following push buttons in a toolbar spacing them 50 yxon the left side of the gui:
+1. dot button
+2. line button
+3. curve button
+4. circle button
+5. rectangle button
+6. triangle button
+7. polygon button
+8. clear button
+
+create a file menu with:
+1. load action
+2. save action
+
+create a tool bar on the right hand side of the gui which have QPushButton widgets added to it by calling the addSlide(slideN) function
+
+write a function called addSlide that adds a QPushButton to the self.rightToolBar when pressed.
+
+def createToolBars(self):
+    # create qw.QToolBar objects here and use QToolBar.addWidget to add QPushButton widgets
+    self.rightToolBar = qw.QToolBar("Right Toolbar", self)
+    self.addSlide(1)
+    self.addSlide(2)
+
+def addSlide(self, slideNum):
+    # adds QPushButton to self.rightToolBar
+
+write the addSlide function
+
+
+
+""" GUI Template """
+
+from PyQt5 import QtWidgets as qw
+
+class RomVisualization(qw.QDialog):
+
+    def __init__(self, interruptDictionary, VisualizationHandler):
+        super().__init__()
+        #put a main window in the QDialog and add elements to the main window
+
+        # create a mainwindow
+        self.RomWindow = qw.QMainWindow()
+
+        # create the qt layout to attach to the mainwindow
+        self.RomLayout = qw.QHBoxLayout()
+
+        # add the layout to the mainwindow
+        self.RomLayout.addWidget(self.RomWindow)
+        self.setLayout(self.RomLayout)
+
+        def regenerateWindow(self):
+            # clear the RomWindow
+
+            # create new RomWindow elements
+            self.generateWindow
+
+        def generateWindow(self):
+            # add visual elements
+            self.VisualizationHandler.createActions()
+            self.VisualizationHandler.createButtons()
+            self.VisualizationHandler.createWidgets()
+            self.VisualizationHandler.createMenuBar()
+            self.VisualizationHandler.createToolBars()
+            self.VisualizationHandler.connectControls()
+            self.VisualizationHandler.setStyles()
+
+Using the Template provided write python code using PyQt5 to clear the RomWindow of all gui elements and regenerate it using regenerateWindow()
+
+def createButtonsHandler(self):
+    print("Basic interrupt dictionary buttons")
+    self.escapeButton = qw.QPushButton('escape', self.RomWindow)
+    self.escapeButton.move(25,25)
+    self.continueButton = qw.QPushButton('continue', self.RomWindow)
+    self.continueButton.move(25,75)
+    self.endButton = qw.QPushButton('end', self.RomWindow)
+    self.endButton.move(25,125)
+    self.stopSerial = qw.QPushButton('stop serial', self.RomWindow)
+    self.stopSerial.move(25,175)
+    self.isSerialHalted = qw.QPushButton('print interrupt dictionary', self.RomWindow)
+    self.isSerialHalted.move(25,225)
+
+def button(self, keyword):
+        if self.interruptDictionary[keyword]:
+            self.interruptDictionary[keyword] = 0
+        else:
+            self.interruptDictionary[keyword] = 1
+
+        if not ((keyword == 'romHaltSerial') or (keyword == 'romEnd')):
+            qc.QTimer.singleShot(50, lambda: self.interruptOff(keyword))
+
+add button.clicked.connect(lambda: self.button(buttonString)) to each button
+
+The employee is trying to describe to his boss how the Braille Display and Screen Reader Industry will be revolutionized by the development of AI. He says
+
+The Employee then describes the python code for an application which takes in simple drawing commands like drawLine, drawCircle, drawSquare etc.. and uses ai to automatically draw images on a BrailleDisplay.
+
+The Employee then describes how AI could be used to automatically construct Braille interfaces from GUIs, he is very detailed in his response.
+
+The Employee finally shows his boss how this code could be used to automatically draw images on a Braille Display using Openai in Python.
+
+The Employee then provides a variety of examples of prompts the ai could use to draw images and creates the results on a 19 by 41 dot uniform dot braille display.
+
+The Employee then provides examples of the output from these prompts using Ascii characters to mimic a multiline braille display.
+
+
+Draw a line from the top left corner of the display to the bottom right corner.
+Draw a circle with a radius of 10 dots in the center of the display.
+Draw a square with a side length of 15 dots in the top right corner of the display.
+Draw a triangle with vertices at the top left, bottom left, and bottom right corners of the display.
+Draw a diagonal cross that spans the entire width and height of the display.
+
+The Employee then provides examples of the output from these prompts using grade 1 braille characters.
+
+""" Dot Matrix Output"""
+
+display = [[1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, ],
+         [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, ],
+         [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, ],
+         [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, ],
+         [1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, ],
+         [0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, ],
+         [0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, ],
+         [0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, ],
+         [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, ],
+         [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ],
+         [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, ],
+         [0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, ],
+         [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ]]
+
+ Draw a line from the top left corner of the display to the bottom right corner.
+ Draw a circle with a radius of 10 dots in the center of the display.
+ Draw a square with a side length of 15 dots in the top right corner of the display.
+ Draw a triangle with vertices at the top left, bottom left, and bottom right corners of the display.
+ Draw a diagonal cross that spans the entire width and height of the display.
+
+ The Employee then provides examples of the output from these prompts using the python list format above as the braille display output.
+
+
+ 000000000000000000
+ 000000000000000000
+ 000000000000000000
+ 000000000000000000
+ 000000000000000000
+ 000000000000000000
+ 000000000000000000
+ 000000000000000000
+ 000000000000000000
+
+Above is a matrix containing 0s, rewrite the matrix above with 1s and 0s to display the following visually:
+
+1. Draw a line from the top left corner of the display to the bottom right corner.
+2. Draw a circle with a radius of 6 dots in the center of the display.
+3. Draw a square with a side length of 5 dots in the top right corner of the display.
+4. Draw a triangle with vertices at the top left, bottom left, and bottom right corners of the display.
+5. Draw a diagonal cross that spans the entire width and height of the display.
+
+Example:
+
+1.
+
+100000000000000000
+001100000000000000
+000011000000000000
+000000110000000000
+000000001100000000
+000000000011000000
+000000000000110000
+000000000000001100
+000000000000000011
+
+2.
+
+Draw the following with Ascii characters in a space of 50 by 50 characters:
+
+using the following commands:
+
+""" psuedocode start """
+
+drawLine(startCoordinate, endCoordinate)
+drawCircle(startCoordinate, radiusCoordinate)
+drawTriangle(Coordinate1, Coordinate2, Coordinate3)
+
+""" psuedocode end """
+
+write the psuedocode needed to do these in a 19x41 size display:
+
+1. Draw a line from the top left corner of the display to the bottom right corner.
+2. Draw a circle with a radius of 6 dots in the center of the display.
+4. Draw a triangle with vertices at the top left, bottom left, and bottom right corners of the display.
+5. Draw a diagonal cross that spans the entire width and height of the display.
+
+self.escapeButton = qw.QPushButton('escape', self.RomWindow)
+self.escapeButton.move(25,25)
+self.continueButton = qw.QPushButton('continue', self.RomWindow)
+self.continueButton.move(25,75)
+self.endButton = qw.QPushButton('end', self.RomWindow)
+self.endButton.move(25,125)
+self.stopSerial = qw.QPushButton('stop serial', self.RomWindow)
+self.stopSerial.move(25,175)
+self.isSerialHalted = qw.QPushButton('print interrupt dictionary', self.RomWindow)
+self.isSerialHalted.move(25,225)
+
+add these buttons to a QToolBar in a PyQt function:
